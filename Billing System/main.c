@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "customer.h"
 #include "item.h"
 #include "bill.h"
