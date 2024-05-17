@@ -4,6 +4,6 @@
 #include "customer.h"
 #include "item.h"
 
-void printBill(struct Customer customer, struct Item items[], int quantities[], int numItems, float total);
+void printBill(char username[], struct Item items[], int quantities[], int numItems, float total);
 
 #endif
