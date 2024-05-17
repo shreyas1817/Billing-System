@@ -2,14 +2,37 @@
 #include <string.h>
 #include "customer.h"
 
-void storeCustomer(struct Customer *customer) {
-    char cust[50];
-    printf("Enter your name: ");
-    scanf("%s", cust);
-    char num[10];
-    printf("Enter phone number: ");
-    scanf("%s", num);
-    customer->id = 1;
-    strcpy(customer->name, cust);
-    strcpy(customer->contact, num);
+
+void store_user(const char *username, const char *password) {
+    FILE *file = fopen("users.csv", "a");
+    if (file == NULL) {
+        perror("Could not open file");
+    }
+
+    fprintf(file, "%s,%s\n", username, password);
+    fclose(file);
+}
+
+int check_user(const char *username, const char *password) {
+    FILE *file = fopen("users.csv", "r");
+    if (file == NULL) {
+        perror("Could not open file");
+        return 0;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        char *stored_username = strtok(line, ",");
+        char *stored_password = strtok(NULL, "\n");
+
+        if (stored_username != NULL && stored_password != NULL) {
+            if (strcmp(stored_username, username) == 0 && strcmp(stored_password, password) == 0) {
+                fclose(file);
+                return 1;
+            }
+        }
+    }
+
+    fclose(file);
+    return 0;
 }
